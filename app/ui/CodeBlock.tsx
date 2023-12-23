@@ -44,9 +44,9 @@ export default function CodeBlock() {
             <form id="form" action="">
                 <input
                     id="input"
+                    disabled={role === "tutor"}
                     className={clsx("rounded-xl border-black border-2 mr-3 text-sm p-2", {
-                        "bg-red-700": role === "student",
-                        "bg-blue-700": role === "tutor",
+                        "bg-slate-50 border-slate-200": role === "tutor",
                     })}
                 />
             </form>
