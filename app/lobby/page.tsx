@@ -3,6 +3,7 @@ import prisma from "../lib/db";
 
 export default async function Lobby() {
   const challenges = await prisma.challenge.findMany();
+  
 
   return (
     <div className="container mx-auto p-4">
