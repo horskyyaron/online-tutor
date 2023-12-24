@@ -1,5 +1,11 @@
 import CodeBlock from "@/app/ui/CodeBlock";
 
 export default function Blocks() {
-    return <CodeBlock />;
+  console.log(process.env.NODE_ENV);
+
+  return (
+    <div>
+      <CodeBlock />
+    </div>
+  );
 }
