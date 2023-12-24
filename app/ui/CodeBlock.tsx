@@ -1,18 +1,21 @@
 "use client";
 
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useRef, useEffect, useState } from "react";
 import { socket } from "../lib/socket";
 import { HandshakeData, UpdatedTextData } from "../lib/defenitions";
 import clsx from "clsx";
 import hljs from "highlight.js/lib/core";
 import "highlight.js/styles/tokyo-night-dark.css";
 import javascript from "highlight.js/lib/languages/javascript";
+import { editor as MonacoEditor } from "monaco-editor";
+import { Editor } from "@monaco-editor/react";
 hljs.registerLanguage("javascript", javascript);
 
 export default function CodeBlock({ starterCode }: { starterCode: string }) {
   const [isConnected, setIsConnected] = useState(socket.connected);
   const [role, setRole] = useState("");
   const [text, setText] = useState(starterCode);
+  const editorRef = useRef<MonacoEditor.IStandaloneCodeEditor | null>(null);
 
   function onConnect() {
     console.log("connected!");
@@ -59,28 +62,24 @@ export default function CodeBlock({ starterCode }: { starterCode: string }) {
   }, [text]);
 
   // emit server that text has changed so it can brodcast it to the other clients (the tutor will be 'updated')
-  function handleTextChange(e: ChangeEvent<HTMLTextAreaElement>) {
-    setText(e.target.value);
-    socket.emit("text change", e.target.value);
+  function handleTextChange() {
+    socket.emit("text change", editorRef.current?.getValue());
   }
 
   return (
-    <div>
+    <div className="bg-blue-600">
       <h1>{isConnected ? `welcome ${role}` : "Waiting..."}</h1>
-      <textarea
-        id="input"
-        disabled={role === "tutor"}
-        onChange={handleTextChange}
-        className={clsx("rounded-xl border-black border-2 mr-3 text-sm p-2", {
-          "bg-slate-50 border-slate-200": role === "tutor",
-        })}
+      <Editor
+        className="h-64"
+        language="javascript"
+        theme="vs-dark"
+        options={{ readOnly: role === "tutor" }}
         value={text}
+        onChange={handleTextChange}
+        onMount={(editor, monaco) => {
+          editorRef.current = editor;
+        }}
       />
-      <pre>
-        <code id="codeblock" className="language-javascript">
-          {text}
-        </code>
-      </pre>
     </div>
   );
 }

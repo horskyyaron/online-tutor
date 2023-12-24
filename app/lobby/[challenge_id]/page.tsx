@@ -14,7 +14,7 @@ export default async function ChallengePage({
 
   return (
     <div className="min-h-screen bg-gray-800 text-white flex flex-col items-center justify-center">
-      <div className="text-center space-y-4">
+      <div className="flex-grow text-center space-y-4 border-white border-3 bg-red-500">
         <h1 className="text-3xl font-bold">{challenge?.title}</h1>
         <h2 className="text-xl font-semibold">{challenge?.description}</h2>
         <div className="mt-6 text-black">
