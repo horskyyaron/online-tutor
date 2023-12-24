@@ -9,10 +9,10 @@ import "highlight.js/styles/tokyo-night-dark.css";
 import javascript from "highlight.js/lib/languages/javascript";
 hljs.registerLanguage("javascript", javascript);
 
-export default function CodeBlock() {
+export default function CodeBlock({ starterCode }: { starterCode: string }) {
   const [isConnected, setIsConnected] = useState(socket.connected);
   const [role, setRole] = useState("");
-  const [text, setText] = useState("");
+  const [text, setText] = useState(starterCode);
 
   function onConnect() {
     console.log("connected!");
@@ -31,10 +31,10 @@ export default function CodeBlock() {
   }
 
   function onTextChange(data: UpdatedTextData) {
-    console.log(data);
     setText(data.updatedText);
   }
 
+  // setting all the sockets events
   useEffect(() => {
     socket.connect();
     socket.on("connect", onConnect);
@@ -42,6 +42,7 @@ export default function CodeBlock() {
     socket.on("handshake", onHandshake);
     socket.on("text change", onTextChange);
 
+    // on unmount, close the socket.
     return () => {
       socket.off("connect", onConnect);
       socket.off("disconnect", onDisconnect);
@@ -57,6 +58,7 @@ export default function CodeBlock() {
     }
   }, [text]);
 
+  // emit server that text has changed so it can brodcast it to the other clients (the tutor will be 'updated')
   function handleTextChange(e: ChangeEvent<HTMLTextAreaElement>) {
     setText(e.target.value);
     socket.emit("text change", e.target.value);
@@ -69,19 +71,13 @@ export default function CodeBlock() {
         id="input"
         disabled={role === "tutor"}
         onChange={handleTextChange}
-        className={clsx(
-          "rounded-xl border-black border-2 mr-3 text-sm p-2",
-          {
-            "bg-slate-50 border-slate-200": role === "tutor",
-          },
-        )}
+        className={clsx("rounded-xl border-black border-2 mr-3 text-sm p-2", {
+          "bg-slate-50 border-slate-200": role === "tutor",
+        })}
         value={text}
       />
       <pre>
-        <code
-          id="codeblock"
-          className="language-javascript"
-        >
+        <code id="codeblock" className="language-javascript">
           {text}
         </code>
       </pre>
