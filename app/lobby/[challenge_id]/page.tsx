@@ -12,6 +12,9 @@ export default async function ChallengePage({
     },
   });
 
+  // TODO:
+  // move socket logic here
+
   return (
     <div className="min-h-screen bg-gray-800 text-white flex flex-col items-center justify-center">
       <div className="flex-grow text-center space-y-4 border-white border-3 bg-red-500">

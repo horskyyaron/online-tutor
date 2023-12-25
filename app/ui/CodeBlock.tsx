@@ -1,9 +1,8 @@
 "use client";
 
-import { ChangeEvent, useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { socket } from "../lib/socket";
 import { HandshakeData, UpdatedTextData } from "../lib/defenitions";
-import clsx from "clsx";
 import hljs from "highlight.js/lib/core";
 import "highlight.js/styles/tokyo-night-dark.css";
 import javascript from "highlight.js/lib/languages/javascript";
@@ -49,6 +48,8 @@ export default function CodeBlock({ starterCode }: { starterCode: string }) {
     return () => {
       socket.off("connect", onConnect);
       socket.off("disconnect", onDisconnect);
+      // TODO
+      socket.disconnect();
     };
   }, []);
 
