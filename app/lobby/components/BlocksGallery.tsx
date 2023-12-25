@@ -34,7 +34,7 @@ export default async function BlocksGallery() {
                         <CardFooter className="flex justify-between">
                             <Badge variant="outline">{c.badge}</Badge>
                             <Link href={`/lobby/${c.id}`} className="text-xl font-bold">
-                                <Button>CODE!</Button>
+                                <Button>Start Coding</Button>
                             </Link>
                         </CardFooter>
                     </Card>
