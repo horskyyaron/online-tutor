@@ -33,7 +33,10 @@ export default function CodeBlock({ starterCode }: { starterCode: string }) {
   }
 
   function onTextChange(data: UpdatedTextData) {
-    setText(data.updatedText);
+    console.log("updating only on tutor!");
+    //no need to update state on student since he is the one writing in real time,
+    //only the tutor state should change so he can see the changes in the text.
+    if (role == "tutor") setText(data.updatedText);
   }
 
   // setting all the sockets events
