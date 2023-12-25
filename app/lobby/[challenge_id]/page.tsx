@@ -1,4 +1,4 @@
-import prisma from "@/app/lib/db";
+import prisma from "@/lib/db";
 import CodeBlock from "@/app/ui/CodeBlock";
 
 export default async function ChallengePage({
@@ -6,6 +6,7 @@ export default async function ChallengePage({
 }: {
   params: { challenge_id: string };
 }) {
+
   const challenge = await prisma.challenge.findFirst({
     where: {
       id: Number(params.challenge_id),

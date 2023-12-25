@@ -2,9 +2,8 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center mt-5">
+    <main>
       <h1 className="text-6xl font-bold">Welcome to OTH!</h1>
-      <h2 className="text-xl pt-2">OTH - online tutoring hub</h2>
       <p>
         we invite to join the lobby for new and exciting challenges made by your
         tutor!
@@ -17,6 +16,6 @@ export default function Home() {
           lobby
         </button>
       </Link>
-    </div>
+    </main>
   );
 }

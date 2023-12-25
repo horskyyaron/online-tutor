@@ -11,27 +11,34 @@ async function main() {
         language: "javascript",
         description:
           "Write a function that calculates the sum of all numbers from 1 up to (and including) a given number.",
+        badge: "Arithmetic Iteration",
       },
       {
         title: "String Reversal",
         starterCode:
-          'function reverseString(str) {\n    let reversed = \'\';\n    // Your code here\n    return reversed;\n}\n\nconsole.log(reverseString("hello")); // Should return "olleh"',
+          "function reverseString(str) {\n    let reversed = '';\n    // Your code here\n    return reversed;\n}\n\nconsole.log(reverseString('hello')); // Should return 'olleh'",
         language: "javascript",
-        description: "Write a function that takes a string and returns it reversed."
+        description:
+          "Write a function that takes a string and returns it reversed.",
+        badge: "String Manipulation",
       },
       {
         title: "Find the Largest Number",
         starterCode:
           "function findLargest(arr) {\n    let largest = arr[0];\n    // Your code here\n    return largest;\n}\n\nconsole.log(findLargest([3, 1, 4, 6, 2, 8])); // Should return 8",
         language: "javascript",
-        description: "Write a function that finds the largest number in an array."
+        description:
+          "Write a function that finds the largest number in an array.",
+        badge: "Array Traversal",
       },
       {
         title: "Checking for Palindromes",
         starterCode:
-          'function isPalindrome(str) {\n    // Your code here\n    return true; // or false\n}\n\nconsole.log(isPalindrome("racecar")); // Should return true',
+          "function isPalindrome(str) {\n    // Your code here\n    return true; // or false\n}\n\nconsole.log(isPalindrome('racecar')); // Should return true",
         language: "javascript",
-        description: "Write a function that checks whether a given string is a palindrome (reads the same forward and backward)."
+        description:
+          "Write a function that checks whether a given string is a palindrome (reads the same forward and backward).",
+        badge: "String Analysis",
       },
     ],
   });

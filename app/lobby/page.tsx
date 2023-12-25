@@ -1,9 +1,10 @@
 import BlocksGallery from "../ui/BlocksGallery";
 
 export default function Lobby() {
-  return (
-    <div>
-      <BlocksGallery />
-    </div>
-  );
+    return (
+        <main>
+            <h1 className="mb-5">Coding Challenges</h1>
+            <BlocksGallery />
+        </main>
+    );
 }

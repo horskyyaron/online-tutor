@@ -1,8 +1,8 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import { socket } from "../lib/socket";
-import { HandshakeData, UpdatedTextData } from "../lib/defenitions";
+import { socket } from "@/lib/socket";
+import { HandshakeData, UpdatedTextData } from "@/lib/defenitions";
 import { editor as MonacoEditor } from "monaco-editor";
 import { Editor } from "@monaco-editor/react";
 import hljs from "highlight.js/lib/core";

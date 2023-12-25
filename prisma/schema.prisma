@@ -15,5 +15,6 @@ model Challenge {
     title       String
     description String
     starterCode String
+    badge       String
     language    String
 }
