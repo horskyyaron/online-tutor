@@ -1,4 +1,4 @@
-import BlocksGallery from "../ui/BlocksGallery";
+import BlocksGallery from "./components/BlocksGallery";
 
 export default function Lobby() {
     return (
