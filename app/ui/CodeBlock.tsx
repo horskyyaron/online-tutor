@@ -5,6 +5,10 @@ import { socket } from "../lib/socket";
 import { HandshakeData, UpdatedTextData } from "../lib/defenitions";
 import { editor as MonacoEditor } from "monaco-editor";
 import { Editor } from "@monaco-editor/react";
+import hljs from "highlight.js/lib/core";
+import "highlight.js/styles/tokyo-night-dark.css";
+import javascript from "highlight.js/lib/languages/javascript";
+hljs.registerLanguage("javascript", javascript);
 
 export default function CodeBlock({ starterCode }: { starterCode: string }) {
   const [isConnected, setIsConnected] = useState(socket.connected);
@@ -28,6 +32,15 @@ export default function CodeBlock({ starterCode }: { starterCode: string }) {
     setText(data.updatedText);
   }
 
+  useEffect(() => {
+    const code = document.getElementById("codeblock");
+    if (code) {
+      // Unset the highlighted dataset to allow re-highlighting
+      code.removeAttribute("data-highlighted");
+      hljs.highlightElement(code);
+    }
+  }, [text]);
+
   // setting all the sockets events
   useEffect(() => {
     if (!socket.connected) {
@@ -49,21 +62,31 @@ export default function CodeBlock({ starterCode }: { starterCode: string }) {
     socket.emit("text change", editorRef.current?.getValue());
   }
 
-  return (
-    <div className="bg-blue-600">
-      <h1>{isConnected ? `welcome ${role}` : "Waiting..."}</h1>
-      <Editor
-        className="h-64"
-        language="javascript"
-        theme="vs-dark"
-        options={{ readOnly: role === "tutor" }}
-        value={text}
-        onChange={handleTextChange}
-        //getting the editor so we can extract its value and emit it to the tutor.
-        onMount={(editor, monaco) => {
-          editorRef.current = editor;
-        }}
-      />
-    </div>
-  );
+  if (role === "tutor") {
+    return (
+      <pre>
+        <code id="codeblock" className="language-javascript text-left">
+          {text}
+        </code>
+      </pre>
+    );
+  } else {
+    return (
+      <div className="bg-blue-600">
+        <h1>{isConnected ? `welcome ${role}` : "Waiting..."}</h1>
+        <Editor
+          className="h-64"
+          language="javascript"
+          theme="vs-dark"
+          options={{ readOnly: role === "tutor" }}
+          onChange={handleTextChange}
+          defaultValue={starterCode}
+          //getting the editor so we can extract its value and emit it to the tutor.
+          onMount={(editor, monaco) => {
+            editorRef.current = editor;
+          }}
+        />
+      </div>
+    );
+  }
 }
