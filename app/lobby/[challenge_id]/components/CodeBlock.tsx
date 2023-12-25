@@ -64,15 +64,17 @@ export default function CodeBlock({ starterCode }: { starterCode: string }) {
 
   if (role === "tutor") {
     return (
-      <pre>
-        <code id="codeblock" className="language-javascript text-left">
-          {text}
-        </code>
-      </pre>
+      <main>
+        <pre>
+          <code id="codeblock" className="language-javascript text-left">
+            {text}
+          </code>
+        </pre>
+      </main>
     );
   } else {
     return (
-      <div className="bg-blue-600">
+      <main>
         <h1>{isConnected ? `welcome ${role}` : "Waiting..."}</h1>
         <Editor
           className="h-64"
@@ -86,7 +88,7 @@ export default function CodeBlock({ starterCode }: { starterCode: string }) {
             editorRef.current = editor;
           }}
         />
-      </div>
+      </main>
     );
   }
 }
