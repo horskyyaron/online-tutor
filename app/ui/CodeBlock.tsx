@@ -25,7 +25,11 @@ export default function CodeBlock({ starterCode }: { starterCode: string }) {
   function onTextChange(data: UpdatedTextData) {
     //no need to update state on student since he is the one writing in real time,
     //only the tutor state should change so he can see the changes in the text.
-    setText(data.updatedText);
+    if (editorRef.current?.getValue() == data.updatedText) {
+      console.log("text are equiv");
+    } else {
+      setText(data.updatedText);
+    }
   }
 
   // setting all the sockets events
