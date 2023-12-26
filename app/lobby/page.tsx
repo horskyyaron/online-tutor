@@ -10,24 +10,17 @@ export default async function Lobby() {
   const PORT = process.env.NODE_ENV == "development" ? "4000" : "";
   const PROTOCOL = process.env.NODE_ENV === "development" ? "http" : "https";
 
-  const serverStatus = await axios
-    .get(`${PROTOCOL}://${IP}:${PORT}/status`)
-    .then((res) => {
-      return res.data;
-    })
-    .catch((e) => {
-      console.log(e);
-    });
+  const res = await fetch(`${PROTOCOL}://${IP}:${PORT}/status`);
+  const result = await res.json();
+
+  console.log(result);
 
   const challenges = await prisma.challenge.findMany();
 
   return (
     <main>
       <h1 className="mb-5">Coding Challenges</h1>
-      <BlocksGallery
-        serverStatus={serverStatus.session}
-        challenges={challenges}
-      />
+      <BlocksGallery serverStatus={result.session} challenges={challenges} />
     </main>
   );
 }

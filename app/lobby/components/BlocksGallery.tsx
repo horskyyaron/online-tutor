@@ -23,13 +23,12 @@ export default async function BlocksGallery({
 }) {
   let isTutorOnline = false;
   let chosenChallengeId = 0;
-  if (serverStatus.challenge_id && serverStatus.challenge_id) {
+  if (serverStatus.challenge_id) {
     isTutorOnline = true;
     chosenChallengeId = serverStatus.challenge_id;
   }
 
-  console.log(serverStatus)
-  
+  console.log(serverStatus);
 
   return (
     <main>
