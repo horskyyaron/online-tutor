@@ -2,28 +2,34 @@ import prisma from "@/lib/db";
 import CodeBlock from "./components/CodeBlock";
 
 export default async function ChallengePage({
-  params,
+    params,
 }: {
-  params: { challenge_id: string };
+    params: { challenge_id: string };
 }) {
-  const challenge = await prisma.challenge.findFirst({
-    where: {
-      id: Number(params.challenge_id),
-    },
-  });
+    const challenge = await prisma.challenge.findUnique({
+        where: {
+            id: Number(params.challenge_id),
+        },
+    });
 
-  return (
-    <main>
-      <h1>{challenge?.title}</h1>
-      <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight mt-2">
-        The task:
-      </h3>
-      <p>{challenge?.description}</p>
-      <CodeBlock
-        starterCode={challenge?.starterCode || ""}
-        challenge_id={challenge?.id.toString() || ""}
-      />
-      ;
-    </main>
-  );
+    const session = await prisma.session.findUnique({
+        where: {
+            challenge_id: Number(params.challenge_id),
+        },
+    });
+
+    return (
+        <main>
+            <h1>{challenge?.title}</h1>
+            <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight mt-2">
+                The task:
+            </h3>
+            <p>{challenge?.description}</p>
+            <CodeBlock
+                starterCode={session ? session.code : challenge?.starterCode || ""}
+                challenge_id={challenge?.id.toString() || ""}
+            />
+            ;
+        </main>
+    );
 }
