@@ -3,24 +3,36 @@ import BlocksGallery from "./components/BlocksGallery";
 import prisma from "@/lib/db";
 
 export default async function Lobby() {
-  const serverStatus = await axios
-    .get("http://localhost:4000/status")
-    .then((res) => {
-      return res.data;
-    })
-    .catch((e) => {
-      console.log(e);
-    });
+    const protocol = process.env.NODE_ENV == "development" ? "http" : "https";
+    const ip =
+        process.env.NODE_ENV == "development"
+            ? "localhost"
+            : process.env.NEXT_PUBLIC_NODE_SERVER_IP;
+    const port =
+        process.env.NODE_ENV == "development"
+            ? "4000"
+            : process.env.NEXT_PUBLIC_NODE_SERVER_PORT;
 
-  const challenges = await prisma.challenge.findMany();
+    console.log(protocol, ip, port);
 
-  return (
-    <main>
-      <h1 className="mb-5">Coding Challenges</h1>
-      <BlocksGallery
-        serverStatus={serverStatus.session}
-        challenges={challenges}
-      />
-    </main>
-  );
+    const serverStatus = await axios
+        .get(`${protocol}://${ip}:${port}/status`)
+        .then((res) => {
+            return res.data;
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+
+    const challenges = await prisma.challenge.findMany();
+
+    return (
+        <main>
+            <h1 className="mb-5">Coding Challenges</h1>
+            <BlocksGallery
+                serverStatus={serverStatus.session}
+                challenges={challenges}
+            />
+        </main>
+    );
 }
