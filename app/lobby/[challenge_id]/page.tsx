@@ -26,8 +26,9 @@ export default async function ChallengePage({
             </h3>
             <p>{challenge?.description}</p>
             <CodeBlock
-                starterCode={session ? session.code : challenge?.starterCode || ""}
+                lastSessionCode={session ? session.code : challenge?.starterCode || ""}
                 challenge_id={challenge?.id.toString() || ""}
+                originalCode={challenge?.starterCode || ""}
             />
             ;
         </main>
