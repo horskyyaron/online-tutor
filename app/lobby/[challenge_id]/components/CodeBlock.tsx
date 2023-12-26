@@ -10,11 +10,48 @@ import "highlight.js/styles/tokyo-night-dark.css";
 import javascript from "highlight.js/lib/languages/javascript";
 hljs.registerLanguage("javascript", javascript);
 
-export default function CodeBlock({ starterCode }: { starterCode: string }) {
+export default function CodeBlock({
+  starterCode,
+  room,
+}: {
+  starterCode: string;
+  room: string;
+}) {
+  //socket related states
   const [isConnected, setIsConnected] = useState(socket.connected);
   const [role, setRole] = useState("");
   const [text, setText] = useState(starterCode);
+
+  // editor ref
   const editorRef = useRef<MonacoEditor.IStandaloneCodeEditor | null>(null);
+
+  // debounce effect related states
+  const [initialText, setInitialText] = useState(starterCode);
+  const [debouncing, setDebouncing] = useState(false);
+
+  // debounce effect
+  useEffect(() => {
+    // save initial text value
+    if (!debouncing) {
+      setInitialText(text);
+    }
+
+    setDebouncing(true);
+
+    //after the delay, check if the initial text(which we saved in the initialText state)
+    //is different than the current text, if so, update db.
+    const timerId = setTimeout(() => {
+      if (text !== initialText) {
+        console.log("updating db");
+        // Perform your DB update logic here
+      }
+      setDebouncing(false);
+    }, 3000);
+
+    // if text changed, clean up useEffect by removing the timeout and cancelling the db update.
+    // and starting the process again.
+    return () => clearTimeout(timerId);
+  }, [text]);
 
   function onConnect() {
     console.log("connected!");
@@ -24,6 +61,12 @@ export default function CodeBlock({ starterCode }: { starterCode: string }) {
   function onHandshake(data: HandshakeData) {
     console.log("on handshake", data.role);
     setRole(data.role);
+    // updating server which room is being used
+    socket.emit("room", room);
+  }
+
+  function onFull(data: HandshakeData) {
+    console.log("room is full", data.role);
   }
 
   function onTextChange(data: UpdatedTextData) {
@@ -32,6 +75,28 @@ export default function CodeBlock({ starterCode }: { starterCode: string }) {
     setText(data.updatedText);
   }
 
+  // emit server that text has changed so it can brodcast it to the other clients (the tutor will be 'updated')
+  function handleTextChange() {
+    socket.emit("text change", editorRef.current?.getValue());
+  }
+
+  // setting up all the sockets events
+  useEffect(() => {
+    if (!socket.connected) {
+      socket.connect();
+    }
+    socket.on("connect", onConnect);
+    socket.on("handshake", onHandshake);
+    socket.on("text change", onTextChange);
+    socket.on("full", onFull);
+
+    // on unmount, close the socket.
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  // highlights tutor code block
   useEffect(() => {
     const code = document.getElementById("codeblock");
     if (code) {
@@ -40,27 +105,6 @@ export default function CodeBlock({ starterCode }: { starterCode: string }) {
       hljs.highlightElement(code);
     }
   }, [text]);
-
-  // setting all the sockets events
-  useEffect(() => {
-    if (!socket.connected) {
-      socket.connect();
-    }
-    socket.on("connect", onConnect);
-    socket.on("handshake", onHandshake);
-    socket.on("text change", onTextChange);
-
-    // on unmount, close the socket.
-    return () => {
-      // TODO
-      socket.disconnect();
-    };
-  }, []);
-
-  // emit server that text has changed so it can brodcast it to the other clients (the tutor will be 'updated')
-  function handleTextChange() {
-    socket.emit("text change", editorRef.current?.getValue());
-  }
 
   if (role === "tutor") {
     return (

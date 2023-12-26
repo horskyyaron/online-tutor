@@ -12,8 +12,6 @@ export default async function ChallengePage({
     },
   });
 
-  // TODO:
-  // move socket logic here
   return (
     <main>
       <h1>{challenge?.title}</h1>
@@ -21,7 +19,11 @@ export default async function ChallengePage({
         The task:
       </h3>
       <p>{challenge?.description}</p>
-      <CodeBlock starterCode={challenge?.starterCode || ""} />;
+      <CodeBlock
+        starterCode={challenge?.starterCode || ""}
+        room={challenge?.id.toString() || ""}
+      />
+      ;
     </main>
   );
 }
