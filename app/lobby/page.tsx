@@ -11,7 +11,7 @@ export default async function Lobby() {
   const PROTOCOL = process.env.NODE_ENV === "development" ? "http" : "https";
 
   const serverStatus = await axios
-    .get(`${PROTOCOL}://${IP}:${PORT}/`)
+    .get(`${PROTOCOL}://${IP}:${PORT}/status`)
     .then((res) => {
       return res.data;
     })
