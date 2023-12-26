@@ -3,17 +3,15 @@ import BlocksGallery from "./components/BlocksGallery";
 import prisma from "@/lib/db";
 
 export default async function Lobby() {
-  const protocol = process.env.NODE_ENV == "development" ? "http" : "https";
-  const ip =
+  const IP =
     process.env.NODE_ENV == "development"
       ? "localhost"
       : process.env.NEXT_PUBLIC_NODE_SERVER_IP;
-  const port = process.env.NODE_ENV == "development" ? "4000" : "";
-
-  console.log(protocol, ip, port);
+  const PORT = process.env.NODE_ENV == "development" ? "4000" : "";
+  const PROTOCOL = process.env.NODE_ENV === "development" ? "http" : "https";
 
   const serverStatus = await axios
-    .get(`${protocol}://${ip}:${port}/status`)
+    .get(`${PROTOCOL}://${IP}:${PORT}/`)
     .then((res) => {
       return res.data;
     })
