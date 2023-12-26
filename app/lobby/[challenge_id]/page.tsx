@@ -21,7 +21,7 @@ export default async function ChallengePage({
       <p>{challenge?.description}</p>
       <CodeBlock
         starterCode={challenge?.starterCode || ""}
-        room={challenge?.id.toString() || ""}
+        challenge_id={challenge?.id.toString() || ""}
       />
       ;
     </main>

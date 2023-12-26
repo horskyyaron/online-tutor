@@ -5,3 +5,8 @@ export type HandshakeData = {
 export type UpdatedTextData = {
   updatedText: string;
 };
+
+export type SessionData = {
+  challenge_id: number;
+  code: string;
+};

@@ -8,14 +8,15 @@ import { Editor } from "@monaco-editor/react";
 import hljs from "highlight.js/lib/core";
 import "highlight.js/styles/tokyo-night-dark.css";
 import javascript from "highlight.js/lib/languages/javascript";
+import { saveSession } from "@/lib/queries";
 hljs.registerLanguage("javascript", javascript);
 
 export default function CodeBlock({
   starterCode,
-  room,
+  challenge_id,
 }: {
   starterCode: string;
-  room: string;
+  challenge_id: string;
 }) {
   //socket related states
   const [isConnected, setIsConnected] = useState(socket.connected);
@@ -40,10 +41,14 @@ export default function CodeBlock({
 
     //after the delay, check if the initial text(which we saved in the initialText state)
     //is different than the current text, if so, update db.
-    const timerId = setTimeout(() => {
+    const timerId = setTimeout(async () => {
       if (text !== initialText) {
         console.log("updating db");
-        // Perform your DB update logic here
+        const res = await saveSession({
+          challenge_id: Number(challenge_id),
+          code: text,
+        });
+        console.log(res);
       }
       setDebouncing(false);
     }, 3000);
@@ -61,8 +66,8 @@ export default function CodeBlock({
   function onHandshake(data: HandshakeData) {
     console.log("on handshake", data.role);
     setRole(data.role);
-    // updating server which room is being used
-    socket.emit("room", room);
+    // updating server which challenge is active
+    socket.emit("challenge", challenge_id);
   }
 
   function onFull(data: HandshakeData) {

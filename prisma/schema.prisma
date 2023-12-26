@@ -11,10 +11,17 @@ datasource db {
 }
 
 model Challenge {
-    id          Int    @id @default(autoincrement())
+    id          Int      @id @default(autoincrement())
     title       String
     description String
     starterCode String
     badge       String
     language    String
+    session     Session? // Optional one-to-one relation to Session
+}
+
+model Session {
+    challenge_id Int       @id
+    code         String
+    challenge    Challenge @relation(fields: [challenge_id], references: [id])
 }
