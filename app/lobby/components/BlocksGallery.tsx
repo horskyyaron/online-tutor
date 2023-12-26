@@ -35,7 +35,7 @@ export default async function BlocksGallery({
     <main>
       {isTutorOnline && (
         <p className="mb-3">
-          tutor is waiting in the highlighted challenge! Good Luck!
+          Tutor is waiting in the highlighted challenge! Good Luck!
         </p>
       )}
 
