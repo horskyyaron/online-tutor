@@ -8,7 +8,7 @@ export default function Home() {
       <p>
         Welcome to OTH - the online tutoring hub.
         <br />
-        We invite to explore the lobby for new and exciting challenges made by
+        We invite you to explore the lobby for new and exciting challenges made by
         your tutor!
       </p>
 
