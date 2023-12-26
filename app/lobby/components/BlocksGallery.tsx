@@ -1,3 +1,4 @@
+"use client"
 import Link from "next/link";
 import {
   Card,
@@ -13,6 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { ServerStatus } from "@/lib/defenitions";
 import { Challenge } from "@prisma/client";
 import clsx from "clsx";
+import { useRouter } from "next/router";
 
 export default async function BlocksGallery({
   serverStatus,
@@ -28,7 +30,6 @@ export default async function BlocksGallery({
     chosenChallengeId = serverStatus.challenge_id;
   }
 
-  console.log(serverStatus);
 
   return (
     <main>

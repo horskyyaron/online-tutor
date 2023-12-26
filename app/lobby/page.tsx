@@ -1,4 +1,3 @@
-import axios from "axios";
 import BlocksGallery from "./components/BlocksGallery";
 import prisma from "@/lib/db";
 
@@ -10,10 +9,12 @@ export default async function Lobby() {
   const PORT = process.env.NODE_ENV == "development" ? "4000" : "";
   const PROTOCOL = process.env.NODE_ENV === "development" ? "http" : "https";
 
-  const res = await fetch(`${PROTOCOL}://${IP}:${PORT}/status`);
+  const res = await fetch(`${PROTOCOL}://${IP}:${PORT}/status`, {
+    cache: "no-store",
+  });
   const result = await res.json();
 
-  console.log(result);
+  console.log("lobby log:", result);
 
   const challenges = await prisma.challenge.findMany();
 
