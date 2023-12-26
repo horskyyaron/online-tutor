@@ -12,6 +12,7 @@ async function main() {
         description:
           "Write a function that calculates the sum of all numbers from 1 up to (and including) a given number.",
         badge: "Arithmetic Iteration",
+        difficulty: "easy",
       },
       {
         title: "String Reversal",
@@ -21,6 +22,7 @@ async function main() {
         description:
           "Write a function that takes a string and returns it reversed.",
         badge: "String Manipulation",
+        difficulty: "medium",
       },
       {
         title: "Find the Largest Number",
@@ -30,6 +32,7 @@ async function main() {
         description:
           "Write a function that finds the largest number in an array.",
         badge: "Array Traversal",
+        difficulty: "medium",
       },
       {
         title: "Checking for Palindromes",
@@ -39,6 +42,7 @@ async function main() {
         description:
           "Write a function that checks whether a given string is a palindrome (reads the same forward and backward).",
         badge: "String Analysis",
+        difficulty: "hard",
       },
     ],
   });

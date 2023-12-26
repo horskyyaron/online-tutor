@@ -10,13 +10,20 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+enum Difficulty {
+    easy
+    medium
+    hard
+}
+
 model Challenge {
-    id          Int      @id @default(autoincrement())
+    id          Int        @id @default(autoincrement())
     title       String
     description String
     starterCode String
     badge       String
     language    String
+    difficulty  Difficulty
     session     Session? // Optional one-to-one relation to Session
 }
 

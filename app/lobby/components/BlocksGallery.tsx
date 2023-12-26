@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 export default async function BlocksGallery() {
-   const challenges = await prisma.challenge.findMany();
+    const challenges = await prisma.challenge.findMany();
 
     return (
         <main>
@@ -27,7 +27,9 @@ export default async function BlocksGallery() {
                             </Avatar>
                             <div>
                                 <CardTitle>{c.title}</CardTitle>
-                                <CardDescription className="mt-0">easy</CardDescription>
+                                <CardDescription className="mt-0">
+                                    {c.difficulty}
+                                </CardDescription>
                             </div>
                         </CardHeader>
                         <CardContent>{c.description}</CardContent>

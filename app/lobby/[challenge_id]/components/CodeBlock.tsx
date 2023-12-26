@@ -9,6 +9,7 @@ import hljs from "highlight.js/lib/core";
 import "highlight.js/styles/tokyo-night-dark.css";
 import javascript from "highlight.js/lib/languages/javascript";
 import { saveSession } from "@/lib/queries";
+import { Button } from "@/components/ui/button";
 hljs.registerLanguage("javascript", javascript);
 
 export default function CodeBlock({
@@ -124,7 +125,7 @@ export default function CodeBlock({
   } else {
     return (
       <main>
-        <h1>{isConnected ? `welcome ${role}` : "Waiting..."}</h1>
+        <Button className="mb-3 bg-primary">reset</Button>
         <Editor
           className="h-64"
           language="javascript"
